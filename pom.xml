@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>chat01</module>
+        <module>chat02</module>
     </modules>
 
     <properties>
