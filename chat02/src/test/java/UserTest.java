@@ -2,6 +2,7 @@ import com.chen.UserFindDto;
 import com.chen.UserModel;
 import com.chen.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.executor.result.DefaultResultContext;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -11,6 +12,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,6 +130,59 @@ public class UserTest {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             UserModel userModel = mapper.getByIdOrName(3l, "cxc");
             System.out.println(userModel);
+        }
+    }
+
+
+    @Test
+    public void testGetListByIdCollection(){
+        try (SqlSession sqlSession = this.sessionFactory.openSession(true);) {
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            List<Long> list = Arrays.asList(2l, 3l);
+            List<UserModel> listByIdCollection = mapper.getListByIdCollection(list);
+            listByIdCollection.forEach(item ->{
+                System.out.println(item);
+            });
+        }
+    }
+
+
+    @Test
+    public void testGetListByIdArray(){
+        try (SqlSession sqlSession = this.sessionFactory.openSession(true);) {
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            List<Long> list = Arrays.asList(2l, 3l);
+            Long[] arrays = (Long[])list.toArray();
+            List<UserModel> listByIdArray = mapper.getListByIdArray(arrays);
+            listByIdArray.forEach(item ->{
+                System.out.println(item);
+            });
+        }
+    }
+
+
+    /**
+     * getResultObject：获取当前行的结果
+     * getResultCount：获取当前结果到第几行了
+     * isStopped：判断是否需要停止遍历结果集
+     * stop：停止遍历结果集
+     * @author @Chenxc
+     * @date 2022/5/6 22:44No such property: code for class: Script1
+     */
+    @Test
+    public void testGetList(){
+        try (SqlSession sqlSession = this.sessionFactory.openSession(true);) {
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            mapper.getList(context ->{
+                ////将context参数转换为DefaultResultContext对象
+                DefaultResultContext<UserModel> defaultResultContext = (DefaultResultContext)context;
+                System.out.println(defaultResultContext.getResultObject());
+                ////遍历到第二条之后停止
+                if(defaultResultContext.getResultCount() == 2){
+                    //调用stop方法停止遍历，stop方法会更新内部的一个标志，置为停止遍历
+                    defaultResultContext.stop();
+                }
+            });
         }
     }
 

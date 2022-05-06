@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.mapper.UserMapper">
+
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+    
+       INSERT INTO t_user (id,name,age,salary,sex) VALUES (#{id},#{name},#{age},#{salary},#{sex})
+    </insert>
+
+    <update id="updateUser">
+        UPDATE t_user SET name = #{name},age = #{age},salary = #{salary},sex = #{sex} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM t_user WHERE id = #{id}
+    </delete>
+
+</mapper>

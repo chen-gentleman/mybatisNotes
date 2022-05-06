@@ -55,4 +55,17 @@ SELECT * FROM t_user
 </select>
 
 
+    <select id="getListByIdCollection" resultType="com.chen.UserModel">
+        select * from t_user where id in (#{collection[0]},#{collection[1]})
+    </select>
+
+
+    <select id="getListByIdArray" resultType="com.chen.UserModel">
+        select * from t_user where id in (#{array[0]},#{array[1]});
+    </select>
+
+    <select id="getList" resultType="com.chen.UserModel">
+        select * from t_user;
+    </select>
+
 </mapper>
