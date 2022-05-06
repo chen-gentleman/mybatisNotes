@@ -1,4 +1,6 @@
+import com.chen.UserFindDto;
 import com.chen.UserModel;
+import com.chen.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -9,7 +11,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author @Chenxc
@@ -74,10 +78,57 @@ public class UserTest {
         try (SqlSession sqlSession = this.sessionFactory.openSession(true);) {
 //执行查询操作
             List<UserModel> userModelList =
-                    sqlSession.selectList("com.chen.userMapper.getUserList");
+                    sqlSession.selectList("com.chen.mapper.userMapper.getUserList");
             log.info("结果：{}", userModelList);
         }
     }
 
+
+    /*传参*/
+
+    @Test
+    public void testGetByName(){
+        try (SqlSession sqlSession = this.sessionFactory.openSession(true);) {
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            UserModel userModel = mapper.getByName("路人甲Java");
+            System.out.println(userModel);
+
+        }
+    }
+
+
+    @Test
+    public void testGetByMap(){
+        try (SqlSession sqlSession = this.sessionFactory.openSession(true);) {
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",3);
+            map.put("name","cxc");
+            List<UserModel> userModels = mapper.getByMap(map);
+            System.out.println(userModels);
+
+        }
+    }
+
+
+    @Test
+    public void testGetListByUserFindDto(){
+        try (SqlSession sqlSession = this.sessionFactory.openSession(true);) {
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            UserFindDto userFindDto = UserFindDto.builder().userId(3l).userName("张学友").build();
+            List<UserModel> userModels = mapper.getListByUserFindDto(userFindDto);
+            System.out.println(userModels);
+
+        }
+    }
+
+    @Test
+    public void testGetByIdOrName(){
+        try (SqlSession sqlSession = this.sessionFactory.openSession(true);) {
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            UserModel userModel = mapper.getByIdOrName(3l, "cxc");
+            System.out.println(userModel);
+        }
+    }
 
 }

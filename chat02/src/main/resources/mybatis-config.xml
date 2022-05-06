@@ -26,6 +26,7 @@
     </environments>
 
     <mappers>
-        <mapper resource="mapper/UserMapper.xml" ></mapper>
+       <!-- <mapper resource="mapper/UserMapper.xml" ></mapper>-->
+        <package name="com.chen.mapper"/>
     </mappers>
 </configuration>
