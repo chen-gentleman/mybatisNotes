@@ -22,11 +22,11 @@ public class Demo1Test {
     private SqlSessionFactory sqlSessionFactory;
     @Before
     public void before() throws IOException {
-//指定mybatis全局配置文件
+    //指定mybatis全局配置文件
         String resource = "mybatis-config.xml";
-//读取全局配置文件
+    //读取全局配置文件
         InputStream inputStream = Resources.getResourceAsStream(resource);
-//构建SqlSessionFactory对象
+    //构建SqlSessionFactory对象
         SqlSessionFactory sqlSessionFactory = new
                 SqlSessionFactoryBuilder().build(inputStream);
         this.sqlSessionFactory = sqlSessionFactory;

@@ -4,14 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <properties resource="dbConfig.properties"></properties>
-    
-    <typeAliases>
-        <package name="com.chen.bean"/>
-    </typeAliases>
-    
 
-    <environments default="chat04">
-        <environment id="chat04">
+    <settings>
+        <!--打开延迟加载的开关 默认是false-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 当为true的时候，调用任意延迟属性，会去加载所有延迟属性，如果为false，则调用某个属性
+的时候，只会加载指定的属性 -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+
+
+
+    <typeAliases>
+        <package name="com.chen.bean.UserModel"/>
+    </typeAliases>
+
+    <environments default="chat05">
+        <environment id="chat05">
             <transactionManager type="JDBC"></transactionManager>
             <dataSource type="POOLED">
                 <property name="driver" value="${driver}"/>
